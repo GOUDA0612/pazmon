@@ -99,7 +99,7 @@ def print_monster_name(monster):
     color = ELEMENT_COLORS[monster['element']]
 
     #モンスター名を表示
-    print(f'\033[3{color}m{symbol}{monster_name}{symbol}\o33[0m',end = '')
+    print(f'\033[3{color}m{symbol}{monster_name}{symbol}\033[0m',end = '')
 
 # main関数の呼び出し
 main()
