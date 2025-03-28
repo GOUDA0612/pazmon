@@ -1,5 +1,5 @@
 #インポート
-
+import random
 #グローバル変数の宣言
 ELEMENT_SYMBOLS ={
         '火' : '$',
@@ -129,7 +129,7 @@ def go_dungeon(party,monster_list):
     print(f'{party['name']}のパーティ(HP={party['hp']})はダンジョンに到着した')
     show_party(party)
     for monster in monster_list:
-        kills += do_battle(monster)
+        kills += do_battle(party,monster)
         if party['hp']<= 0:
             print(f'{party['name']}はダンジョンから逃げ出した')
             break
@@ -140,12 +140,6 @@ def go_dungeon(party,monster_list):
 
 
     return kills 
-
-#バトル　シーン
-def do_battle(monster):
-    print()
-    print_monster_name(monster)
-    print('が現れた!')
 
 #味方の攻撃ターン
     command = input('コマンド？>')
@@ -160,6 +154,24 @@ def do_battle(monster):
 #敵の攻撃ターン
     print(f'【{monster['name']}のターン】200ダメージを受けた')
     return -200
+
+def do_battle(party,monster):
+    print_monster_name(monster)
+    print('が現れた!')
+    
+    while True:
+        on_player_turn(party,monster)
+        if monster['hp'] <= 0:
+            break
+        on_enemy_turn(party,monster)
+        if party['hp'] <= 0:
+            print('パーティのHPは0になった')
+
+            return 0
+
+    print_monster_name(monster)
+    print('を倒した!')
+    return 1
 
 def print_monster_name(monster):
     monster_name = monster['name']
@@ -193,8 +205,52 @@ def show_party(party):
     print('-----------------------------------')
     print()
 
+def on_player_turn(party,monster):
+    print(f'\n【{party['name']}のターン】(HP = {party['hp']})')
+    command = input('コマンド？＞')
+    damage = 50
+    print(f'{damage}のダメージを与えた')
+    monster['hp'] -= damage
 
+def on_enemy_turn(party,monster):
+    print(f'\n【',end='')
+    print_monster_name(monster)
+    print(f'のターン】(HP = {monster['hp']})')
+    do_enemy_attack(party)
 
+def do_attack(monster,command):
+    damage = int(hash(command))% 50
+    rand = random.uniform(-0.1,0.1)+1
+    damage = int(damage * rand)
+    print(f'{damage}のダメージを与えた')
+    monster['hp'] -= damage
+
+def do_enemy_attack(party):
+    damage = 200
+    print(f'{damage}のダメージを受けた')
+    party['hp'] -= damage
+
+# プレイヤーターンに宝石表示を加える
+def fill_games(num=14):
+    elements = list(ELEMENT_SYMBOL.keys())
+    return [random.choice(elements[:-1]) for _ in range(num)]
+
+def print_gams(gems):
+    labels = [chr(ohr(ord('A') + i) for i in range (len(gams)))]
+    print(''.join(labels))
+    for gem in gems:
+        symbol = ELEMENT_SYMBOL[gem]
+        color = ELEMENT_COLORS[gem]
+        print(f'\033[3{color}m{symbol}\033[0m', end = '')
+    print('\n---------------------------')
+
+def  show_battle_filed(party,monster,gems):
+#敵の情報
+    print()
+    print_monster_name(monster)
+    print(f'HP={monster["hp"]} /{monster["max_hp]}')
+    
+    print('-----------------------------')
 
 # main関数の呼び出し
 main()
