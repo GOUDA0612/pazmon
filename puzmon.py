@@ -21,6 +21,41 @@ ELEMENT_COLORS ={
 
 
 def main():
+    frends = [
+            {
+                'name' : '青龍',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '風',
+                'ap' : 15,
+                'dp' : 10
+            },
+            {
+                'name' : '朱雀',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '火',
+                'ap' : 15,
+                'dp' : 10
+            },
+            {
+                'name' : '白虎',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '土',
+                'ap' : 20,
+                'dp' : 5
+            },
+            {
+                'name' : '玄武',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '水',
+                'ap' : 20,
+                'dp' : 15
+            },
+            
+    ]
     monster_list = [
             {
                 'name' : 'スライム',
@@ -70,6 +105,7 @@ def main():
         print('エラー:プレイヤー名を入力してください')
 
     print('***puzle&monster***')
+    party = organize_party(player_name,friends)
     kills = go_dungeon(player_name,monster_list)
     if kills == len(monster_list):
         print('*** GAME CLEARED!! ***')
@@ -78,9 +114,10 @@ def main():
 
     print(f'倒したモンスター数 = {kills}')
 
-def go_dungeon(player_name,monster_list):
+def go_dungeon(party,monster_list):
     kills = 0
-    print(f'{player_name}はダンジョンに到着した')
+    print(f"{party['name']}のパーティ(HP={party['hp']})はダンジョンに到着した")
+    show party(party)
     for monster in monster_list:
         kills += do_battle(monster)
     print(f'{player_name}はダンジョンを制覇した')
@@ -100,6 +137,35 @@ def print_monster_name(monster):
 
     #モンスター名を表示
     print(f'\033[3{color}m{symbol}{monster_name}{symbol}\033[0m',end = '')
+
+def organize_party(player_name,friends):
+    total_hp = 0
+    total_dp = 0
+    for friend in friends:
+        total_hp += friend['hp']
+        total_hp += friend['dp']
+    party = {
+            'name':player_name,
+            'friends':friends,
+            'hp':total_hp,
+            'max_hp':total_hp,
+            'dp':total_dp /len(friends)
+    }
+    return party
+
+def show_party(party):
+    print('<パーティ編成>---------------')
+    for friend in party['friends']:
+        print_monster_name(friend)
+        print(f' HP = {friend['hp']} 攻撃={friend['ap']} 防御 = {friend['dp']}')
+    print('-----------------------------------')
+    print()
+
+
+
+
+
+
 
 # main関数の呼び出し
 main()
