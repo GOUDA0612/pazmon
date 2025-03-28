@@ -21,8 +21,6 @@ ELEMENT_COLORS ={
 
 
 def main():
-<<<<<<< HEAD
-=======
     friends = [
             {
                 'name' : '青龍',
@@ -58,7 +56,6 @@ def main():
             },
             
     ]
->>>>>>> d5c273c (friends 追加（修正）)
     monster_list = [
             {
                 'name' : 'スライム',
@@ -101,40 +98,6 @@ def main():
                 'dp' :20 
             },
     ]
-    friends = [
-            {
-                'name' : '青龍',
-                'hp' : 150,
-                'max_hp' : 150,
-                'element' : '風',
-                'ap' : 15,
-                'dp' :10 
-            }, 
-            {
-                'name' : '朱雀',
-                'hp' : 150,
-                'max_hp' : 150,
-                'element' : '火',
-                'ap' : 25,
-                'dp' :10 
-            }, 
-            {
-                'name' : '白虎',
-                'hp' : 150,
-                'max_hp' : 150,
-                'element' : '風',
-                'ap' : 20,
-                'dp' :5 
-            }, 
-            {
-                'name' : '玄武',
-                'hp' : 150,
-                'max_hp' : 150,
-                'element' : '水',
-                'ap' : 20,
-                'dp' :15 
-            }, 
-    ]
     while True:
         player_name = input('プレイヤー名を入力してください>>')
         if len(player_name) > 0:
@@ -142,16 +105,11 @@ def main():
         print('エラー:プレイヤー名を入力してください')
 
     print('***puzle&monster***')
-<<<<<<< HEAD
     print(f'{player_name}のHP:600')
     print(f'{player_name}のパーティを編成しました!')
-    print_friends(friends)
 
-    kills = go_dungeon(player_name,monster_list)
-=======
     party = organize_party(player_name,friends)
     kills = go_dungeon(party,monster_list)
->>>>>>> d5c273c (friends 追加（修正）)
     if kills == len(monster_list):
         print('*** GAME CLEARED!! ***')
     else:
@@ -166,59 +124,8 @@ def print_friends(friends):
         print(f' HP:{member["hp"]} 攻撃:{member["ap"]} DP:{member["dp"]}')
     print('----------------------------------')
 
-def go_dungeon(player_name,monster_list):
+def go_dungeon(party,monster_list):
     kills = 0
-<<<<<<< HEAD
-    for monster in monster_list:
-        kills += do_battle(monster)
-
-        if kills < len(monster_list):
-            print(f'{player_name}はさらに奥へと進んだ...')
-        print('==================================')
-プレイヤー名を入力してください>>a
-***puzle&monster***
-aのHP:600
-aのパーティを編成しました!
-<パーティ編成>--------------------
-@青龍@ HP:150 攻撃:15 DP:10
-$朱雀$ HP:150 攻撃:25 DP:10
-@白虎@ HP:150 攻撃:20 DP:5
-~玄武~ HP:150 攻撃:20 DP:15
-----------------------------------
-~スライム~が現れた!
-~スライム~を倒した!
-
-aはさらに奥へと進んだ...
-
-==================================
-#ゴブリン#が現れた!
-#ゴブリン#を倒した!
-
-aはさらに奥へと進んだ...
-
-==================================
-@オオコウモリ@が現れた!
-@オオコウモリ@を倒した!
-
-aはさらに奥へと進んだ...
-
-==================================
-@ウェアウルフ@が現れた!
-@ウェアウルフ@を倒した!
-
-aはさらに奥へと進んだ...
-
-==================================
-$ドラゴン$が現れた!
-$ドラゴン$を倒した!
-==================================
-aはダンジョンを制覇した
-*** GAME CLEARED!! ***
-倒したモンスター数 = 5
-
-Press ENTER or type command to continue
-    print(f'{player_name}はダンジョンを制覇した')
-=======
     print(f'{party['name']}のパーティ(HP={party['hp']})はダンジョンに到着した')
     show_party(party)
     for monster in monster_list:
@@ -226,22 +133,33 @@ Press ENTER or type command to continue
         if party['hp']<= 0:
             print(f'{party['name']}はダンジョンから逃げ出した')
             break
-        print(f'{party['name']}はさらに奥に進んだ')
+        print(f'{party['name']}はさらに奥へと進んだ...')
         print('================================')
     else:
         print(f'{party['name']}はダンジョンを制覇した')
 
 
->>>>>>> d5c273c (friends 追加（修正）)
     return kills 
 
+#バトル　シーン
 def do_battle(monster):
-    print():
+    print()
     print_monster_name(monster)
     print('が現れた!')
-    print_monster_name(monster)
-    print('を倒した!')
-    return 1
+
+#味方の攻撃ターン
+    command = input('コマンド？>')
+    damage = len(command)*10
+    monster['hp'] -= damage
+    print(f'{monster['name']}に{damage}ダメージを与えた')
+
+    if monster['hp'] <= 0:
+        print_monster_name(monster)
+        print('を倒した!')
+        return 1
+#敵の攻撃ターン
+    print(f'【{monster['name']}のターン】200ダメージを受けた')
+    return -200
 
 def print_monster_name(monster):
     monster_name = monster['name']
@@ -251,8 +169,6 @@ def print_monster_name(monster):
     #モンスター名を表示
     print(f'\033[3{color}m{symbol}{monster_name}{symbol}\033[0m',end = '')
 
-<<<<<<< HEAD
-=======
 def organize_party(player_name,friends):
     total_hp = 0
     total_dp = 0
@@ -280,6 +196,5 @@ def show_party(party):
 
 
 
->>>>>>> d5c273c (friends 追加（修正）)
 # main関数の呼び出し
 main()
