@@ -63,6 +63,40 @@ def main():
                 'dp' :20 
             },
     ]
+    friends = [
+            {
+                'name' : '青龍',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '風',
+                'ap' : 15,
+                'dp' :10 
+            }, 
+            {
+                'name' : '朱雀',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '火',
+                'ap' : 25,
+                'dp' :10 
+            }, 
+            {
+                'name' : '白虎',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '風',
+                'ap' : 20,
+                'dp' :5 
+            }, 
+            {
+                'name' : '玄武',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '水',
+                'ap' : 20,
+                'dp' :15 
+            }, 
+    ]
     while True:
         player_name = input('プレイヤー名を入力してください>>')
         if len(player_name) > 0:
@@ -70,6 +104,10 @@ def main():
         print('エラー:プレイヤー名を入力してください')
 
     print('***puzle&monster***')
+    print(f'{player_name}のHP:600')
+    print(f'{player_name}のパーティを編成しました!')
+    print_friends(friends)
+
     kills = go_dungeon(player_name,monster_list)
     if kills == len(monster_list):
         print('*** GAME CLEARED!! ***')
@@ -77,16 +115,69 @@ def main():
         print('*** GAME OVER!! ***')
 
     print(f'倒したモンスター数 = {kills}')
+    
+def print_friends(friends):
+    print('<パーティ編成>--------------------')
+    for member in friends:
+        print_monster_name(member)
+        print(f' HP:{member["hp"]} 攻撃:{member["ap"]} DP:{member["dp"]}')
+    print('----------------------------------')
 
 def go_dungeon(player_name,monster_list):
     kills = 0
-    print(f'{player_name}はダンジョンに到着した')
     for monster in monster_list:
         kills += do_battle(monster)
+
+        if kills < len(monster_list):
+            print(f'{player_name}はさらに奥へと進んだ...')
+        print('==================================')
+プレイヤー名を入力してください>>a
+***puzle&monster***
+aのHP:600
+aのパーティを編成しました!
+<パーティ編成>--------------------
+@青龍@ HP:150 攻撃:15 DP:10
+$朱雀$ HP:150 攻撃:25 DP:10
+@白虎@ HP:150 攻撃:20 DP:5
+~玄武~ HP:150 攻撃:20 DP:15
+----------------------------------
+~スライム~が現れた!
+~スライム~を倒した!
+
+aはさらに奥へと進んだ...
+
+==================================
+#ゴブリン#が現れた!
+#ゴブリン#を倒した!
+
+aはさらに奥へと進んだ...
+
+==================================
+@オオコウモリ@が現れた!
+@オオコウモリ@を倒した!
+
+aはさらに奥へと進んだ...
+
+==================================
+@ウェアウルフ@が現れた!
+@ウェアウルフ@を倒した!
+
+aはさらに奥へと進んだ...
+
+==================================
+$ドラゴン$が現れた!
+$ドラゴン$を倒した!
+==================================
+aはダンジョンを制覇した
+*** GAME CLEARED!! ***
+倒したモンスター数 = 5
+
+Press ENTER or type command to continue
     print(f'{player_name}はダンジョンを制覇した')
     return kills 
 
 def do_battle(monster):
+    print():
     print_monster_name(monster)
     print('が現れた!')
     print_monster_name(monster)
