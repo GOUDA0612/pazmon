@@ -21,7 +21,7 @@ ELEMENT_COLORS ={
 
 
 def main():
-    frends = [
+    friends = [
             {
                 'name' : '青龍',
                 'hp' : 150,
@@ -106,7 +106,7 @@ def main():
 
     print('***puzle&monster***')
     party = organize_party(player_name,friends)
-    kills = go_dungeon(player_name,monster_list)
+    kills = go_dungeon(party,monster_list)
     if kills == len(monster_list):
         print('*** GAME CLEARED!! ***')
     else:
@@ -116,11 +116,19 @@ def main():
 
 def go_dungeon(party,monster_list):
     kills = 0
-    print(f"{party['name']}のパーティ(HP={party['hp']})はダンジョンに到着した")
-    show party(party)
+    print(f'{party['name']}のパーティ(HP={party['hp']})はダンジョンに到着した')
+    show_party(party)
     for monster in monster_list:
         kills += do_battle(monster)
-    print(f'{player_name}はダンジョンを制覇した')
+        if party['hp']<= 0:
+            print(f'{party['name']}はダンジョンから逃げ出した')
+            break
+        print(f'{party['name']}はさらに奥に進んだ')
+        print('================================')
+    else:
+        print(f'{party['name']}はダンジョンを制覇した')
+
+
     return kills 
 
 def do_battle(monster):
@@ -144,6 +152,7 @@ def organize_party(player_name,friends):
     for friend in friends:
         total_hp += friend['hp']
         total_hp += friend['dp']
+
     party = {
             'name':player_name,
             'friends':friends,
@@ -154,15 +163,12 @@ def organize_party(player_name,friends):
     return party
 
 def show_party(party):
-    print('<パーティ編成>---------------')
+    print('<パーティ編成>---------------------')
     for friend in party['friends']:
         print_monster_name(friend)
         print(f' HP = {friend['hp']} 攻撃={friend['ap']} 防御 = {friend['dp']}')
     print('-----------------------------------')
     print()
-
-
-
 
 
 
