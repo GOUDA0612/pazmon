@@ -21,6 +21,44 @@ ELEMENT_COLORS ={
 
 
 def main():
+<<<<<<< HEAD
+=======
+    friends = [
+            {
+                'name' : '青龍',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '風',
+                'ap' : 15,
+                'dp' : 10
+            },
+            {
+                'name' : '朱雀',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '火',
+                'ap' : 15,
+                'dp' : 10
+            },
+            {
+                'name' : '白虎',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '土',
+                'ap' : 20,
+                'dp' : 5
+            },
+            {
+                'name' : '玄武',
+                'hp' : 150,
+                'max_hp' : 150,
+                'element' : '水',
+                'ap' : 20,
+                'dp' : 15
+            },
+            
+    ]
+>>>>>>> d5c273c (friends 追加（修正）)
     monster_list = [
             {
                 'name' : 'スライム',
@@ -104,11 +142,16 @@ def main():
         print('エラー:プレイヤー名を入力してください')
 
     print('***puzle&monster***')
+<<<<<<< HEAD
     print(f'{player_name}のHP:600')
     print(f'{player_name}のパーティを編成しました!')
     print_friends(friends)
 
     kills = go_dungeon(player_name,monster_list)
+=======
+    party = organize_party(player_name,friends)
+    kills = go_dungeon(party,monster_list)
+>>>>>>> d5c273c (friends 追加（修正）)
     if kills == len(monster_list):
         print('*** GAME CLEARED!! ***')
     else:
@@ -125,6 +168,7 @@ def print_friends(friends):
 
 def go_dungeon(player_name,monster_list):
     kills = 0
+<<<<<<< HEAD
     for monster in monster_list:
         kills += do_battle(monster)
 
@@ -174,6 +218,21 @@ aはダンジョンを制覇した
 
 Press ENTER or type command to continue
     print(f'{player_name}はダンジョンを制覇した')
+=======
+    print(f'{party['name']}のパーティ(HP={party['hp']})はダンジョンに到着した')
+    show_party(party)
+    for monster in monster_list:
+        kills += do_battle(monster)
+        if party['hp']<= 0:
+            print(f'{party['name']}はダンジョンから逃げ出した')
+            break
+        print(f'{party['name']}はさらに奥に進んだ')
+        print('================================')
+    else:
+        print(f'{party['name']}はダンジョンを制覇した')
+
+
+>>>>>>> d5c273c (friends 追加（修正）)
     return kills 
 
 def do_battle(monster):
@@ -192,5 +251,35 @@ def print_monster_name(monster):
     #モンスター名を表示
     print(f'\033[3{color}m{symbol}{monster_name}{symbol}\033[0m',end = '')
 
+<<<<<<< HEAD
+=======
+def organize_party(player_name,friends):
+    total_hp = 0
+    total_dp = 0
+    for friend in friends:
+        total_hp += friend['hp']
+        total_hp += friend['dp']
+
+    party = {
+            'name':player_name,
+            'friends':friends,
+            'hp':total_hp,
+            'max_hp':total_hp,
+            'dp':total_dp /len(friends)
+    }
+    return party
+
+def show_party(party):
+    print('<パーティ編成>---------------------')
+    for friend in party['friends']:
+        print_monster_name(friend)
+        print(f' HP = {friend['hp']} 攻撃={friend['ap']} 防御 = {friend['dp']}')
+    print('-----------------------------------')
+    print()
+
+
+
+
+>>>>>>> d5c273c (friends 追加（修正）)
 # main関数の呼び出し
 main()
